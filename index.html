@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Day 9 — Java: Inner Classes, Anonymous Classes & Abstract + Anonymous</title>
+  <style>
+    /* Basic page styling */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #f7f8fb;
+      color: #111;
+    }
+    .container {
+      max-width: 900px;
+      margin: 36px auto;
+      background: #fff;
+      padding: 28px;
+      box-shadow: 0 6px 22px rgba(16,24,40,0.08);
+      border-radius: 10px;
+    }
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 26px;
+    }
+    .meta {
+      color: #6b7280;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+    p.lead {
+      font-size: 16px;
+      color: #374151;
+    }
+
+    /* Section */
+    section {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid #e6e9ef;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 0 0 8px 0;
+    }
+    .explain {
+      background: #fbfdff;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid #e6f0ff;
+      margin-bottom: 12px;
+      color: #213547;
+    }
+
+    /* Code block styling similar to GfG */
+    .code-wrapper {
+      position: relative;
+      margin: 12px 0 20px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #e6e9ef;
+      background: #0b1220; /* dark code background */
+    }
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #e6eef6;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.45;
+      background: transparent;
+    }
+    .code-actions {
+      position: absolute;
+      right: 10px;
+      top: 8px;
+      display: flex;
+      gap: 8px;
+    }
+    .copy-btn {
+      background: rgba(255,255,255,0.06);
+      color: #dbeafe;
+      border: 0;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .copy-btn:active { transform: translateY(1px); }
+    .copy-btn .check { display: none; }
+    .copy-success .copy-btn .text { display: none; }
+    .copy-success .copy-btn .check { display: inline-block; }
+
+    /* Complexity box */
+    .meta-box {
+      background: #f1f5f9;
+      border: 1px solid #e6eef6;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+    .small {
+      font-size: 13px;
+      color: #475569;
+    }
+    .hint {
+      margin-top: 8px;
+      color: #334155;
+      font-size: 14px;
+    }
+
+    /* footer */
+    footer {
+      margin-top: 28px;
+      font-size: 13px;
+      color: #475569;
+      border-top: 1px solid #eef2ff;
+      padding-top: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width:640px) {
+      .container { margin: 12px; padding: 16px; }
+      pre { padding: 14px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Day 9 — Java: Inner Classes, Anonymous Classes & Abstract + Anonymous</h1>
+    <div class="meta">Course: Telusko (Udemy) • Topic: Java inner/anonymous classes • Author: Aravind</div>
+
+    <p class="lead">
+      Simple, clear explanations (like for a 5th grader), copyable Java code, and short notes you can publish.
+      Each code block has a copy button — just like GeeksforGeeks.
+    </p>
+
+    <!-- Overview -->
+    <section>
+      <h2>Quick idea (like a real-life story)</h2>
+      <div class="explain">
+        Imagine you order something on Amazon. The order has an ID, an amount, and an address. Inside that order, there's delivery status (packed, shipped, out for delivery).
+        The delivery status only makes sense inside the order — that's exactly why we use an <strong>inner class</strong>.
+        A <strong>anonymous inner class</strong> is like a sticky note you write once for quick use (no need to create a whole new book/class). An <strong>abstract class</strong> is a half-finished plan — and combining it with anonymous means we finish the plan right away without creating a named child.
+      </div>
+      <div class="hint"><strong>Search phrases to Google/YouTube:</strong> "Java inner class tutorial", "Java anonymous inner class example", "Java abstract class anonymous implementation".</div>
+    </section>
+
+    <!-- Example 1 -->
+    <section>
+      <h2>1) Inner Class — simple example</h2>
+      <p class="small">What it is (5th-grade style): A class inside another class. Use it when the inner thing only belongs to the outer thing (like delivery status belongs to an order).</p>
+
+      <div class="code-wrapper" id="code1-wrapper">
+        <div class="code-actions">
+          <button class="copy-btn" data-target="code1">
+            <span class="text">Copy</span><span class="check">✓</span>
+          </button>
+        </div>
+        <pre id="code1" tabindex="0"><code>// InnerClassExample.java
+public class InnerClassExample {
+    private int orderId;
+    private int amount;
+
+    public InnerClassExample(int orderId, int amount) {
+        this.orderId = orderId;
+        this.amount = amount;
+    }
+
+    // Inner class (DeliveryStatus)
+    class DeliveryStatus {
+        private String status;
+        public DeliveryStatus(String status) {
+            this.status = status;
+        }
+        public void showStatus() {
+            System.out.println("Order ID: " + orderId);
+            System.out.println("Amount: " + amount);
+            System.out.println("Status: " + status);
+        }
+    }
+
+    public static void main(String[] args) {
+        InnerClassExample order = new InnerClassExample(101, 999);
+        InnerClassExample.DeliveryStatus ds = order.new DeliveryStatus("Out for delivery");
+        ds.showStatus();
+    }
+}</code></pre>
+      </div>
+
+      <div class="meta-box">
+        <strong>Time complexity:</strong> O(1) — the program does a fixed number of steps (create objects, print), so time doesn't grow with input size. <br>
+        <strong>Space complexity:</strong> O(1) — only a few variables and objects are created regardless of input size.
+        <div class="small">Why: we only make one <code>order</code> and one <code>DeliveryStatus</code>. If you made N orders the time/space would grow with N, but this example shows a single fixed example.</div>
+      </div>
+
+      <p class="small" style="margin-top:8px;">
+        Real-life usage: Encapsulating data that belongs only to a single parent object. <strong>Company example:</strong> Amazon-like systems use inner classes or similar patterns to model order + delivery details.
+      </p>
+    </section>
+
+    <!-- Example 2 -->
+    <section>
+      <h2>2) Anonymous Inner Class — quick sticky note</h2>
+      <p class="small">What it is (5th-grade style): A tiny class without a name used one time only — like a quick sticky note you throw away after reading.</p>
+
+      <div class="code-wrapper" id="code2-wrapper">
+        <div class="code-actions">
+          <button class="copy-btn" data-target="code2">
+            <span class="text">Copy</span><span class="check">✓</span>
+          </button>
+        </div>
+        <pre id="code2" tabindex="0"><code>// AnonymousInnerClassExample.java
+public interface Notes {
+    void remember();
+}
+
+public class AnonymousInnerClassExample {
+    public static void main(String[] args) {
+        // Create an anonymous inner class that implements Notes
+        Notes stickyNote = new Notes() {
+            @Override
+            public void remember() {
+                System.out.println("Remember this formula: a² + b² = c²");
+            }
+        };
+
+        stickyNote.remember();
+    }
+}</code></pre>
+      </div>
+
+      <div class="meta-box">
+        <strong>Time complexity:</strong> O(1) — the example runs a fixed action (create and call) once. <br>
+        <strong>Space complexity:</strong> O(1) — only one anonymous object is created.
+        <div class="small">Why: The code creates a single anonymous object and calls one method — constant steps and constant memory.</div>
+      </div>
+
+      <p class="small" style="margin-top:8px;">
+        Real-life usage: When you need a one-off behavior (like a one-time confirmation dialog). <strong>Company example:</strong> Quick UI callbacks or listeners (many companies with Java UI code — e.g., older Java desktop apps or some backend callback code).
+      </p>
+    </section>
+
+    <!-- Example 3 -->
+    <section>
+      <h2>3) Abstract class + Anonymous implementation</h2>
+      <p class="small">What it is (5th-grade style): An abstract class is a half-finished plan. Using an anonymous class means you finish the plan immediately without naming the child — like assigning a short task to someone and not writing their name on a big roster.</p>
+
+      <div class="code-wrapper" id="code3-wrapper">
+        <div class="code-actions">
+          <button class="copy-btn" data-target="code3">
+            <span class="text">Copy</span><span class="check">✓</span>
+          </button>
+        </div>
+        <pre id="code3" tabindex="0"><code>// AbstractAnonymousExample.java
+abstract class AbstractDelivery {
+    abstract void deliver();
+}
+
+public class AbstractAnonymousExample {
+    public static void main(String[] args) {
+        // Anonymous implementation of abstract class
+        AbstractDelivery delivery = new AbstractDelivery() {
+            @Override
+            void deliver() {
+                System.out.println("Your order will be delivered by bike.");
+            }
+        };
+
+        delivery.deliver();
+    }
+}</code></pre>
+      </div>
+
+      <div class="meta-box">
+        <strong>Time complexity:</strong> O(1) — the example performs a fixed action once. <br>
+        <strong>Space complexity:</strong> O(1) — one anonymous object is allocated.
+        <div class="small">Why: Only one object and one method call exist in the example, so both time and memory stay constant.</div>
+      </div>
+
+      <p class="small" style="margin-top:8px;">
+        Real-life usage: Systems that define a general contract (abstract) and sometimes provide quick one-off implementations (anonymous). <strong>Company example:</strong> Delivery assignment systems in e-commerce where different deliverers (strategies) are used without making many separate classes.
+      </p>
+    </section>
+
+    <!-- Short notes and tips -->
+    <section>
+      <h2>Short tips & when to use which</h2>
+      <ul>
+        <li><strong>Inner class:</strong> Use when the inner thing belongs ONLY to the outer thing (encapsulation).</li>
+        <li><strong>Anonymous class:</strong> Use for quick, one-time tasks — UI callbacks, small listeners, one-off implementations.</li>
+        <li><strong>Abstract + anonymous:</strong> When you have a general plan but want to implement it quickly without creating a named subclass.</li>
+      </ul>
+
+      <div class="explain">
+        <strong>Exact phrases to search (copy-paste):</strong><br>
+        <code>Java inner class tutorial</code> • <code>Java anonymous inner class example</code> • <code>Java abstract class anonymous implementation</code>
+      </div>
+    </section>
+
+    <footer>
+      <div>Published: Day 9 — Java learning notes</div>
+      <div style="margin-top:8px;">
+        Want changes? I can add hashtags, a short summary for LinkedIn, or a downloadable zip with the .java files.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Copy-to-clipboard functionality for code blocks
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var targetId = btn.getAttribute('data-target');
+        var codeEl = document.getElementById(targetId);
+        if (!codeEl) return;
+        // Extract text content
+        var text = codeEl.innerText;
+        // Copy
+        navigator.clipboard.writeText(text).then(function() {
+          var wrapper = btn.closest('.code-wrapper');
+          wrapper.classList.add('copy-success');
+          // temporarily show check
+          setTimeout(function() {
+            wrapper.classList.remove('copy-success');
+          }, 2200);
+        }, function(err) {
+          // fallback: select and execCommand
+          try {
+            var range = document.createRange();
+            range.selectNodeContents(codeEl);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            document.execCommand('copy');
+            var wrapper = btn.closest('.code-wrapper');
+            wrapper.classList.add('copy-success');
+            setTimeout(function() {
+              wrapper.classList.remove('copy-success');
+            }, 2200);
+            sel.removeAllRanges();
+          } catch (e) {
+            alert('Copy failed — please select the code and press Ctrl/Cmd+C');
+          }
+        });
+      });
+    });
+
+    // Make code blocks keyboard focusable and selectable on click
+    document.querySelectorAll('pre[tabindex]').forEach(function(pre) {
+      pre.addEventListener('click', function() {
+        var range = document.createRange();
+        range.selectNodeContents(pre);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      });
+    });
+  </script>
+</body>
+</html>
