@@ -1,10 +1,8 @@
-// basically abstract classs is a half finished plan 
-// for example when we write notes or assignments in our school days we feel overloaded and we assign the remaining task to our siblings in favour of chocolates or gifts 
 
 // that basically abstract  is which has half finished task need to be finished by other  child class 
 
 
-// another example if we consider amazon amazon has many delivery partners and they dont want to know who delivers the product at the end the order should be delivered .
+// another example if we consider amazon .amazon has many delivery partners and they dont want to know who delivers the product at the end the order should be delivered .
 
 // combining it with anonymous class we say abstract+ anonymous 
 
