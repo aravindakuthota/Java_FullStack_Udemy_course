@@ -1,4 +1,4 @@
-package Java_FullStack_Udemy_course.Advanced_java;
+package Advanced_java;
 
 // Abstract in Java is used to define incomplete classes or methods that must be completed by child classes to achieve abstraction.
 

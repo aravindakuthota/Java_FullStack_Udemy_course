@@ -104,16 +104,52 @@ Used in **Amazon**, **Flipkart**, **Uber**
 - You **cannot** do `new EnumName()`
 - Very safe — prevents mistakes
 
-## 7. Annotations
-**What are they?**  
-Special **stickers** or **tags** we put on code using `@`.  
-They give extra information to the computer (compiler, tools, frameworks) without changing how the code actually runs.
 
-**Real-life example**  
-Teacher puts stickers on your notebook:  
-- “Very important!”  
-- “Do this as homework”  
-- “Old method — don’t use”
+
+
+## 7. Annotations
+
+Annotations are like metadata tags we put on code using @ symbol. They give extra information to compilers, frameworks, or tools without changing the actual logic — for example @Override, @Deprecated, or Spring's @Autowired.
+
+
+What is annotation?
+Small tags (start with @) that add extra information to code (classes, methods, variables)
+
+
+
+Do they change how code runs?
+No — they are just metadata. Other tools/frameworks read them.
+
+
+Where can we put them?
+Above classes, methods, fields, parameters, even other annotations
+Built-in annotations (most asked):
+@Override
+@Deprecated
+@SuppressWarnings
+@FunctionalInterface
+
+
+
+Custom annotation (you can make your own)
+
+Javaimport java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.METHOD)           // can only be put on methods
+@Retention(RetentionPolicy.RUNTIME)   // can be read while program is running
+public @interface MyImportantMethod {
+    String author() default "Unknown";
+    int priority() default 1;
+}
+
+
+Real-life example + company usage .
+Real-life example:
+Think of @Test in JUnit — it tells the testing tool "run this method as a test case". Without it, the method is ignored.
+
 
 **Real company example**  
 `@Override`, `@Autowired`, `@Test` — used in **every modern Java project** (**Netflix**, **Amazon**, **Google**)
@@ -127,3 +163,236 @@ Teacher puts stickers on your notebook:
 | `@SuppressWarnings` | Ignore small warnings here                       | “Don’t tell me about tiny mistakes”             | Old libraries (**Netflix**)              |
 | `@Test`             | This is a test — run it!                         | “This is a test question — check it!”           | Unit tests (**Spotify**, **Google**)     |
 | `@Autowired`        | Spring — give me the object I need               | “Magic helper — bring me the toy!”              | Spring Boot apps (**Amazon**, **Netflix**) |
+
+
+
+
+# ----------------TYPES OF INTERFACES -------------------
+
+
+# Types of Interfaces in Java
+
+
+1) Normal Interface :
+
+ Definition (easy to remember):
+A normal interface is a rule book that can have zero or more abstract methods. It can also have default methods and static methods (since Java 8).
+Key Points:
+
+Can have abstract methods (no body)
+Can have default methods (with body – optional to override)
+Can have static methods (called using interface name)
+Classes use implements to follow it
+Most common type
+
+ Real-life example: List interface (has add(), remove(), size() etc.)  
+
+
+
+
+
+2) Functional Interface / Single Abstract Method :
+
+   Definition (easy to remember):
+An interface with exactly one abstract method. It is made for lambda expressions and method references.
+Key Points:
+
+Must have exactly 1 abstract method
+Can have any number of default + static methods
+Usually marked with @FunctionalInterface (optional but recommended)
+Enables short lambda syntax
+
+ Real-life example: Runnable, Comparator, Predicate
+Used by: Almost every modern Java application (Streams, Spring, Android)
+
+
+3) Market Interface : 
+
+Definition (easy to remember):
+An empty interface with zero methods. It acts like a tag or label that says “this class has a special ability”.
+Key Points:
+
+No methods at all (completely empty)
+Used to give a special permission or signal to JVM / framework
+No code to implement — just implements it
+Very old style, but still important
+
+Real built-in examples:
+
+java.io.Serializable
+java.lang.Cloneable
+java.rmi.Remote
+
+Real-life example: Putting a "This package is fragile" sticker on a box — the sticker itself does nothing, but delivery people treat it differently.
+
+
+
+
+
+This table explains the different types of interfaces in Java in a simple way.
+
+| Type of Interface        | Number of Abstract Methods | Special Feature                                   | Example                               | Used with Lambda? |
+|--------------------------|----------------------------|--------------------------------------------------|---------------------------------------|-------------------|
+| Normal Interface         | 0 or more                  | Can have default & static methods                | List, Map, Animal                     | No                |
+| Functional Interface     | Exactly 1                  | Works with lambda expressions                    | Runnable, Comparator, Predicate       | Yes               |
+| Marker Interface         | 0                          | Acts as a tag / label for the JVM                | Serializable, Cloneable               | No                |
+
+
+
+# Types of Errors in Java
+
+This table explains common types of errors in Java with simple examples.
+
+| Type of Error   | When it Happens     | Does Program Compile? | Does Program Run? | Example                          |
+|-----------------|---------------------|------------------------|-------------------|----------------------------------|
+| Syntax Error    | While writing code  | No                     | No                | Missing `;` or `{`               |
+| Logical Error   | While running       | Yes                    | Yes (wrong result)| `2 + 2` calculated as `22`        |
+| Runtime Error   | While running       | Yes                    | Program crashes   | Divide by zero, file not found   |
+
+## Notes
+- **Syntax errors** are caught by the compiler.
+- **Logical errors** are hardest to find because code runs.
+- **Runtime errors** occur due to unexpected situations.
+
+
+
+Exceptions  ->
+
+handle exceptions in Java
+
+We don't want the whole program to crash and stop like a broken bike.
+We want to handle it nicely — show a message, fix it if possible, or at least clean up and stop safely.
+Java gives us 4 main tools to do this:
+
+ 1) try-catch
+2) finally
+3) throw
+4) throws
+
+
+1. try-catch – The most important one
+
+ When you try to open a photo on your phone but the file is missing → app shows "Photo not found" instead of crashing.
+
+
+Company example: Amazon shows "Item is out of stock" instead of crashing when you add something unavailable.
+
+code  :
+
+public class Main {
+    public static void main(String[] args) {
+
+        try {
+            int a = 10;
+            int b = 0;
+            int result = a / b;           // This will cause exception
+            System.out.println(result);
+        }
+        catch (ArithmeticException e) {   // We catch only this type
+            System.out.println("Cannot divide by zero! Please check.");
+        }
+
+        System.out.println("Program continues...");
+    }
+}
+
+
+
+2)  finally –  finally runs always — whether exception happened or not.
+Used to clean up (close files, connections, etc.)
+
+
+code : 
+
+public class Main {
+    public static void main(String[] args) {
+
+        try {
+            int[] numbers = {1, 2, 3};
+            System.out.println(numbers[5]);   // This will cause exception
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Wrong index!");
+        }
+        finally {
+            System.out.println("This always runs – cleaning up now...");
+        }
+
+        System.out.println("End of program");
+    }
+}
+
+
+3)  throw – You created and threw the exception yourself.
+
+code :
+
+public class Main {
+    
+public static void checkage(int age) {
+    if(age < 18 ) {
+        throw new ArithmeticException(" Age must be 18 or above to vote.");
+    }
+     else  {
+        System.out.println("You are eligible to vote.");
+     }
+
+}
+
+
+public static void main(String[] args) {
+    try {
+        checkage (15);
+    } 
+    catch (ArithmeticException e) {
+        System.out.println("Exception caught: " + e.getMessage());
+    }
+}
+}
+
+4) throws 
+
+
+You are writing a program that reads a number from the user (using Scanner).
+But what if the user types letters instead of numbers?
+Java will throw InputMismatchException (which is a checked exception in some cases, but we’ll handle it nicely).
+We will use throws to say:
+“This method might cause a problem — the caller must handle it.”
+
+code :
+
+import java.util.Scanner;
+
+public class Main {
+
+    // This method says: "I might throw InputMismatchException"
+    // So anyone who calls me MUST use try-catch
+
+
+    static void getUserAge() throws InputMismatchException {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Enter your age: ");
+        int age = scanner.nextInt();   // ← this line can throw exception if user types "twenty"
+        
+        System.out.println("Your age is: " + age);
+    }
+
+    public static void main(String[] args) {
+
+        try {
+            getUserAge();   // calling the risky method
+        } 
+        catch (InputMismatchException e) {
+            System.out.println("Error: Please enter a valid number for age!");
+        }
+        finally {
+            System.out.println("Thank you for using the program.");
+        }
+
+        System.out.println("Program ends safely.");
+    }
+}
+
+
+

@@ -1,3 +1,5 @@
+package Advanced_java;
+
 // this is like writing stick notes while reading a book or for faster revision  while preparing for any  exam we use to write stick notes that is  called anonymous 
 
 // we dont have seperate book for these type of short revision or formulas we usually use them in stick notes.
