@@ -177,9 +177,6 @@ Q5. What is the difference between @Override, @Deprecated, and @SuppressWarnings
 
 
 
-
-
-
 AnnotationPurpose (simple)When compiler shows something?@OverrideMust override parent methodError if wrong@DeprecatedMark something old — don't useWarning when used@SuppressWarningsHide warnings (e.g. "unchecked")Nothing — hides warnings
 Q6. Can we create our own custom annotation? How?
 Answer: Yes!
@@ -242,16 +239,21 @@ Q1. What is an interface in Java?
 Answer:
 An interface is like a rule book or contract. It tells what methods a class must have, but it doesn’t tell how to write them.
 A class that follows (implements) an interface has to write code for all those methods.
-Simple example:
-Javainterface Animal {
-    void eat();
-    void sleep();
-}
+    Simple example:
+    Javainterface Animal {
+        void eat();
+        void sleep();
+    }
+
 Real-life analogy: Like saying every phone must have “call” and “message” buttons, but how they work inside can be different.
+
+
+
 Q2. How do you create an interface and use it?
 Answer:
 We use the keyword interface to create it.
 A class uses implements keyword to follow it.
+
 Example:
 Javainterface Flyable {
     void fly();
@@ -282,41 +284,13 @@ Answer (very simple version for freshers):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 FeatureAbstract ClassInterfaceMethods with bodyYesNo (except default & static)VariablesCan have normal variablesOnly constants (public static final)Multiple inheritanceNo (only one parent)Yes (can implement many)Keywordabstract classinterfaceUse whenCommon code + some must-doPure rules / contract
 Real-life:
 Abstract class → half-built house
 Interface → just the rule poster
+
+
+
 Q5. What is a functional interface?
 Answer:
 A functional interface is an interface that has exactly one abstract method.
@@ -327,9 +301,14 @@ Java@FunctionalInterface
 interface Greeting {
     void sayHello(String name);   // only one abstract method
 }
+
+
 Usage:
 JavaGreeting g = name -> System.out.println("Hi " + name);
 g.sayHello("Aravind");
+
+
+
 Q6. Name some built-in functional interfaces in Java.
 Answer:
 Common ones freshers should know:
@@ -342,41 +321,49 @@ Supplier → get()
 Function → apply()
 
 All these are used a lot with lambda and streams.
+
+
+
 Q7. What is a marker interface? Give example.
 Answer:
 A marker interface is an empty interface (no methods).
 It acts like a tag or label to tell JVM or framework that the class has some special ability.
-Examples:
+    Examples:
 
-Serializable (can be converted to bytes)
-Cloneable (can be copied)
-Remote (for RMI)
+    Serializable (can be converted to bytes)
+    Cloneable (can be copied)
+    Remote (for RMI)
 
-Simple:
-Javaclass Student implements Serializable {
-    String name;
-    int age;
-}
+    Simple:
+    Javaclass Student implements Serializable {
+        String name;
+        int age;
+    }
+
+
+
 Q8. Can a class implement more than one interface?
 Answer:
 Yes — this is called multiple inheritance (allowed only through interfaces).
-Example:
-Javainterface Flyable {
-    void fly();
-}
-
-interface Swimmable {
-    void swim();
-}
-
-class Duck implements Flyable, Swimmable {
-    public void fly() {
-        System.out.println("Duck flying");
+    Example:
+    Javainterface Flyable {
+        void fly();
     }
-    public void swim() {
-        System.out.println("Duck swimming");
+
+    interface Swimmable {
+        void swim();
     }
-}
+
+    class Duck implements Flyable, Swimmable {
+        public void fly() {
+            System.out.println("Duck flying");
+        }
+        public void swim() {
+            System.out.println("Duck swimming");
+        }
+    }
+
+
 Q9. What happens if a class implements an interface but doesn’t implement all methods?
 Answer:
 It will give a compilation error unless the class is also declared as abstract.
@@ -389,14 +376,16 @@ Q10. What are default methods in interface? Why were they added?
 Answer:
 Default methods are methods in interface that have body (code inside {}).
 They were added in Java 8 so that old interfaces can add new methods without breaking existing classes.
-Example:
-Javainterface Vehicle {
-    void start();
 
-    default void horn() {
-        System.out.println("Beep beep!");
+Example:
+    Javainterface Vehicle {
+        void start();
+
+        default void horn() {
+            System.out.println("Beep beep!");
+        }
     }
-}
+
 Old classes that implement Vehicle don’t need to write horn() — they get it automatically.
 Real-life example:
 Java added default method forEach() in Iterable interface in Java 8 — old code didn’t break.

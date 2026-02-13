@@ -8,9 +8,6 @@ It gives rules (some methods without body) that every child class **must** follo
 **Real-life example**  
 Blueprint of a house — you can’t live in the blueprint, but every real house is built using it.
 
-**Real company example**  
-Java’s `AbstractList` — `ArrayList` and `LinkedList` follow its rules.  
-Used by **Google**, **Amazon**.
 
 **Key points**
 - Can have both normal methods + abstract methods
@@ -25,9 +22,6 @@ It usually belongs only to the outer class and works closely with it.
 **Super short real-life example**  
 Engine inside a Car — the engine only makes sense when it’s part of the car.
 
-**Real company example**  
-`Map.Entry` is an inner interface inside `Map` class.  
-Used everywhere (**Google**, **Amazon**).
 
 ## 3. Anonymous Inner Class
 **What is it?**  
@@ -186,8 +180,6 @@ Classes use implements to follow it
 Most common type
 
  Real-life example: List interface (has add(), remove(), size() etc.)  
-
-
 
 
 
@@ -396,3 +388,174 @@ public class Main {
 
 
 
+# Scanner vs BufferedReader in Java
+
+This table compares `Scanner` and `BufferedReader` for input handling in Java.
+
+| Feature                     | Scanner                                   | BufferedReader                          |
+|----------------------------|--------------------------------------------|------------------------------------------|
+| Easy to use?               | Very easy                                  | A little more code                       |
+| Speed                      | Good for small input                       | Faster for large input                  |
+| Reads numbers directly?    | Yes (`nextInt()`, `nextDouble()`)          | No – read `String` then parse            |
+| Handles spaces well?       | `nextLine()` yes, `next()` no              | Yes (always reads full line)             |
+| Needs exception handling?  | No (unchecked exceptions)                  | Yes (`IOException` – checked)            |
+| Most used by freshers?     | Yes                                        | Sometimes in advanced problems           |
+
+## Notes
+- Use **Scanner** for simple programs and beginners.
+- Use **BufferedReader** for fast input and competitive programming.
+
+
+
+
+Common Scanner methods:
+
+nextLine()  → full sentence (with spaces)
+next()     → one word (stops at space)
+nextInt()  → integer number
+nextDouble() → decimal number
+nextBoolean() → true/false
+
+
+
+# Threads
+
+A thread is the smallest unit of work that can be scheduled and run  by the computer .
+
+# multi threading -> doing many things at the same time .
+
+
+
+# Java Thread Important Methods
+
+| Method            | What it does (Simple)                                      | Example Use                                      |
+|-------------------|------------------------------------------------------------|--------------------------------------------------|
+| start()           | Starts a new thread and internally calls run()             | Always call this to begin execution              |
+| run()             | Contains the task code that the thread executes            | Write your business logic inside this method     |
+| sleep(millis)     | Pauses the current thread for given milliseconds           | Add delay between printing numbers               |
+| join()            | Makes one thread wait until another thread finishes        | Main thread waits for child thread to complete   |
+| setName()         | Assigns a name to the thread                               | Helps in debugging multiple threads              |
+| getName()         | Returns the name of the thread                             | Print which thread is executing                  |
+| currentThread()   | Returns the currently running thread                       | Thread.currentThread().getName()                 |
+
+
+
+
+race condition -> synchronization in java 
+
+
+A race condition occurs when multiple threads access and modify shared data concurrently, leading to inconsistent results. Synchronization in Java ensures that only one thread at a time can access a critical section, preventing race conditions.
+
+
+
+
+
+# states of threads 
+
+
+
+State,Meaning (simple),How it happens,Can we start thread again?
+NEW,Born but not started,After new Thread(),Yes
+RUNNABLE,Working or ready to work,After start(),—
+BLOCKED,Waiting for lock (synchronized),Trying to enter synchronized block,—
+WAITING,Waiting forever for signal,"wait(), join(), park()",—
+TIMED_WAITING,Waiting for limited time,"sleep(), wait(millis), join(millis)",—
+TERMINATED,Job done or died,run() finished or exception,No
+
+
+
+
+
+Collection API 
+
+
+
+# Java Collection Framework Quick Guide
+
+| Interface | Common Classes | When to Use It | Example Use Case |
+|------------|----------------|----------------|------------------|
+| List | ArrayList, LinkedList, Vector | When you need ordered elements, allow duplicates, and want fast add/get operations | List of top 10 movies |
+| Set | HashSet, LinkedHashSet, TreeSet | When you want only unique items (no duplicates allowed) | Unique email IDs in newsletter subscribers |
+| Queue | PriorityQueue, LinkedList, ArrayDeque | When you need FIFO (First-In-First-Out) or priority-based processing | Tasks in a printer queue |
+| Map | HashMap, LinkedHashMap, TreeMap | When you need to store data in key-value pairs | Student ID → Marks |
+
+
+
+Collection 
+  
+   1) list 
+            1) arraylist 
+            2) linkedlist
+
+    2) Queue
+        1) Dequeue
+    
+    3) Set
+       1) Hashset
+        
+
+    2) Map 
+       1) HashMap
+
+
+
+Comparator vs Comparable 
+
+
+# Comparable vs Comparator in Java
+
+Sorting is used to arrange objects in a specific order (like marks, names, price, etc.).
+
+Java provides two ways to sort objects:
+- Comparable → Object defines its own natural order.
+- Comparator → External class defines sorting rules.
+
+---
+
+## 📌 Difference Table
+
+| Feature | Comparable | Comparator |
+|----------|------------|------------|
+| Interface | `Comparable<T>` | `Comparator<T>` |
+| Main Method | `compareTo(T o)` | `compare(T o1, T o2)` |
+| Where Defined | Inside the same class | Separate class / anonymous class / lambda |
+| Sorting Rules | Only one natural order | Multiple sorting orders possible |
+| Modify Existing Class? | No (cannot modify built-in classes like `String`, `Integer`) | Yes (can create external logic) |
+| Used In | `Collections.sort(list)` | `Collections.sort(list, comparator)` |
+| Keyword Used | `implements Comparable<Student>` | `implements Comparator<Student>` |
+
+---------------------------------------------
+
+
+# ⏱ Time & Space Complexity
+
+Java uses **TimSort** internally for sorting.
+
+Time Complexity:
+- Best Case: O(n)
+- Average Case: O(n log n)
+- Worst Case: O(n log n)
+
+Space Complexity:
+- O(n) (uses temporary arrays internally)
+
+---
+
+# 🏢 Real-World Usage
+
+Used in:
+- Amazon → Sort products by rating, price
+- Flipkart → Sort by popularity
+- Swiggy → Sort restaurants by distance
+
+Comparable → When there is one default sorting rule  
+Comparator → When multiple sorting options are needed  
+
+---
+
+# 🎯 Summary
+
+- Comparable → Natural sorting (inside class)
+- Comparator → Custom sorting (outside class)
+- Collections.sort() uses Comparable automatically
+- Collections.sort(list, comparator) uses custom rule
