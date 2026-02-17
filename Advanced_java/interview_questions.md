@@ -473,3 +473,121 @@ try {
 } catch (ArithmeticException e) {
     System.out.println("Cannot divide by zero!");
 }
+
+
+
+
+--------------------------------------------
+
+
+
+
+Here are **10 most expected interview questions** on **Stream API + forEach** in Java (fresher level – very commonly asked in 2024–2026 service-based & product-based companies).
+
+Written as **short, fast-revision notes** — perfect to read 10 minutes before interview.
+
+### 1. What is Stream API in Java? When was it introduced?
+
+**Ans (say this):**  
+Stream API was introduced in **Java 8**.  
+It allows us to process collections (List, Set, arrays…) in a functional style using pipeline operations like filter, map, reduce, collect — code becomes short, readable and can run in parallel easily.
+
+### 2. What are the two types of streams? Difference between stream() and parallelStream()?
+
+**Ans:**  
+- **stream()** → sequential (single thread)  
+- **parallelStream()** → parallel (multiple threads – uses ForkJoinPool)
+
+**When to use parallel?**  
+Only for large data + CPU-intensive tasks (not for small lists or I/O heavy work).
+
+### 3. What are intermediate and terminal operations in Stream?
+
+**Ans (very common):**  
+
+| Type          | Meaning                              | Examples                          | Lazy / Eager? |
+|---------------|--------------------------------------|-----------------------------------|---------------|
+| Intermediate  | Returns another Stream (chaining)    | filter, map, sorted, distinct     | **Lazy**      |
+| Terminal      | Produces final result or side-effect | collect, forEach, reduce, count   | **Eager**     |
+
+**Key point:** Stream is lazy → nothing happens until a terminal operation is called.
+
+### 4. Name 5 most commonly used intermediate operations.
+
+**Ans (list fast):**  
+1. filter()  
+2. map()  
+3. flatMap()  
+4. sorted()  
+5. distinct() / limit() / skip()
+
+### 5. What is the difference between map() and flatMap()?
+
+**Ans (super frequent):**  
+
+| map()                  | flatMap()                              |
+|------------------------|----------------------------------------|
+| 1-to-1 transformation  | 1-to-many → flattens nested structures |
+| Example: String → length | List<List<Integer>> → List<Integer> |
+
+**Simple code:**
+```java
+List<String> words = Arrays.asList("Hello", "World");
+words.stream().map(String::length);          // Stream<Integer> [5,5]
+words.stream().flatMap(w -> w.chars().mapToObj(c -> (char)c)); // flattens to characters
+```
+
+### 6. What does forEach() do in Stream? Is it intermediate or terminal?
+
+**Ans:**  
+**forEach()** is a **terminal** operation.  
+It performs an action (print, log, call method) for each element.  
+Returns void → cannot chain after forEach.
+
+**Example:**
+```java
+list.forEach(System.out::println);
+list.stream().filter(x -> x > 0).forEach(System.out::println);
+```
+
+### 7. Can we use break or continue inside stream forEach()?
+
+**Ans:**  
+**No** — stream forEach() does not support break, continue or return.  
+If you need to stop early → use normal for-loop or findFirst() / anyMatch().
+
+### 8. What is Collectors class? Name 5 useful collectors.
+
+**Ans:**  
+Collectors is a utility class to collect stream results into List, Set, Map, String, etc.
+
+Common ones:
+1. Collectors.toList()
+2. Collectors.toSet()
+3. Collectors.joining(", ")
+4. Collectors.groupingBy(Student::getDepartment)
+5. Collectors.partitioningBy(n -> n % 2 == 0)
+
+### 9. What is the difference between Collection.forEach() and Stream.forEach()?
+
+**Ans (nice to impress interviewer):**
+
+| Feature                        | Collection.forEach()          | Stream.forEach()               |
+|--------------------------------|-------------------------------|--------------------------------|
+| Works on                       | List, Set, Map directly       | After stream pipeline          |
+| Order guaranteed?              | Yes (for List)                | No (unless forEachOrdered())   |
+| Parallel possible?             | No                            | Yes (parallelStream().forEach) |
+| Can chain filter/map before?   | No                            | Yes                            |
+
+### 10. Write one common real-world example where Stream API + forEach is used.
+
+**Ans (say confidently):**  
+Filtering active users and sending welcome email:
+
+```java
+List<User> users = ...;
+users.stream()
+     .filter(User::isActive)
+     .forEach(user -> emailService.sendWelcomeEmail(user.getEmail()));
+```
+

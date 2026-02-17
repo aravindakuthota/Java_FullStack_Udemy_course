@@ -559,3 +559,97 @@ Comparator → When multiple sorting options are needed
 - Comparator → Custom sorting (outside class)
 - Collections.sort() uses Comparable automatically
 - Collections.sort(list, comparator) uses custom rule
+
+
+
+foreach - stream 
+
+Hey Java, for every item in this box, do this action — no need to write a long for loop.
+
+       
+       import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<String> names = new ArrayList<>();
+        names.add("Aravind");
+        names.add("Priya");
+        names.add("Ravi");
+        names.add("Sneha");
+
+        // Old long way (classic for loop)
+        // for (String name : names) {
+        //     System.out.println("Hello " + name);
+        // }
+
+        // Short & clean forEach way
+        names.forEach(name -> System.out.println("Hello " + name));
+
+        // Even shorter (method reference)
+        names.forEach(System.out::println);   // just prints names
+
+        // Another example: make all names uppercase and print
+        names.forEach(name -> System.out.println(name.toUpperCase()));
+    }
+}
+
+
+
+------------------------------------------
+
+
+
+Stream = a pipeline  where data flows from one step to another.
+You can filter, map, sort, count, collect data without writing long for-loops.
+
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<String> fruits = Arrays.asList("Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig");
+
+        // Old boring way (for loop)
+        // for (String f : fruits) {
+        //     if (f.startsWith("A") || f.startsWith("C")) {
+        //         System.out.println(f.toUpperCase());
+        //     }
+        // }
+
+        // Stream way – clean and short
+        List<String> result = fruits.stream()                // open the pipe
+                .filter(f -> f.startsWith("A") || f.startsWith("C"))  // keep only A or C
+                .map(String::toUpperCase)                    // make uppercase
+                .sorted()                                    // sort alphabetically
+                .collect(Collectors.toList());               // collect back to list
+
+        System.out.println(result);
+        // Output: [APPLE, CHERRY]
+    }
+}
+
+
+Time complexity: O(n) – we go through the list once (or few times depending on operations)
+Space complexity: O(n) in worst case (when we collect to new list)
+(How we found: most stream operations are lazy + single pass → linear time & space )
+
+
+Most common stream operations (easy names)
+
+Operation,What it does (simple),Example
+filter,Keep only items that match condition,.filter(x -> x > 10)
+map,Change each item into something else,.map(x -> x * 2)
+sorted,Arrange items in order,.sorted() or .sorted(Comparator)
+distinct,Remove duplicates,.distinct()
+limit,Take only first few items,.limit(5)
+skip,Ignore first few items,.skip(3)
+collect,Put results into list/set/map,.collect(Collectors.toList())
+count,Just tell how many items,.count()
+forEach,Do something for each item (like print),.forEach(System.out::println)
+reduce,"Combine all items into one (sum, max, etc.)",".reduce(0, Integer::sum)"
+
